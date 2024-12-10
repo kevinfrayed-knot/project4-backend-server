@@ -6,6 +6,12 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 
+//import required routes
+const categoryRoutes = require('./routes/categories');
+const questionRoutes = require('./routes/questions');
+const answerRoutes = require('./routes/answers');
+
+
 // Initialize the Express app
 const app = express();
 
@@ -16,7 +22,7 @@ app.use(express.json());
 // MongoDB connection
 const dbURI = process.env.MONGODB_URI;
 
-mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(dbURI)
   .then(() => console.log('MongoDB connected successfully'))
   .catch(err => console.error('MongoDB connection error:', err));
 
@@ -25,6 +31,17 @@ app.get('/', (req, res) => {
   res.send('Hello from the backend!');
 });
 
+// Import auth routes
+const authRoutes = require('./routes/auth');
+
+// Use the auth routes
+app.use('/api/auth', authRoutes);
+// Use other routes
+app.use('/api/categories', categoryRoutes);
+app.use('/api/questions', questionRoutes);
+app.use('/api/answers', answerRoutes);
+
+
 // Set the port
 const port = process.env.PORT || 8080;
 
@@ -32,20 +49,3 @@ const port = process.env.PORT || 8080;
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
-
-// Test MongoDB connection with a simple GET route
-app.get('/test-db', async (req, res) => {
-    try {
-      await mongoose.connection.db.admin().ping();
-      res.send('MongoDB connection is active!');
-    } catch (err) {
-      res.status(500).send('MongoDB connection failed: ' + err.message);
-    }
-  });
-
-const authRoutes = require('./routes/auth');
-app.use('/api/auth', authRoutes);
-console.log('Auth routes loaded');
-console.log('Server is running on port 8080');
-
-  
