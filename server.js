@@ -1,3 +1,5 @@
+
+
 // Load environment variables
 require('dotenv').config();
 
@@ -10,6 +12,7 @@ const cors = require('cors');
 const categoryRoutes = require('./routes/categories');
 const questionRoutes = require('./routes/questions');
 const answerRoutes = require('./routes/answers');
+const userRoutes = require('./routes/users');
 
 
 // Initialize the Express app
@@ -40,6 +43,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/questions', questionRoutes);
 app.use('/api/answers', answerRoutes);
+app.use('/api/users', userRoutes);
 
 
 // Set the port
