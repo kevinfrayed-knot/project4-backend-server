@@ -24,7 +24,7 @@ const cors = require('cors');
 app.use(cors({
   origin: [
     'http://localhost:3000',  // For local development
-    'https://kevinfrayed-knot.github.io/Project4-Frontend-React-App'  // Deployed frontend URL on GitHub Pages
+    'https://kevinfrayed-knot.github.io'  // Deployed frontend URL on GitHub Pages
   ],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
