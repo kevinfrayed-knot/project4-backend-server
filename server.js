@@ -23,12 +23,14 @@ const cors = require('cors');
 
 // Allow requests from your frontend origin
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: [
+    'http://localhost:3000',                        // For local development
+    'https://kevinfrayed-knot.github.io'            // Deployed frontend URL on GitHub Pages
+  ],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
-app.use(express.json());
 
 // MongoDB connection
 const dbURI = process.env.MONGODB_URI;
