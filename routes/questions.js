@@ -7,9 +7,8 @@ const Question = require('../models/Question');
 // Create a new question (POST /api/questions)
 router.post('/', async (req, res) => {
   try {
-    console.log('Request Body:', req.body);  // Log the incoming request body
+    console.log('Request Body:', req.body);  // Log the incoming request body for debugging
     const question = new Question({
-      categoryId: req.body.categoryId,
       userId: req.body.userId,
       content: req.body.content,
     });
@@ -20,8 +19,6 @@ router.post('/', async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
-
-
 
 // Get all questions (GET /api/questions)
 router.get('/', async (req, res) => {
