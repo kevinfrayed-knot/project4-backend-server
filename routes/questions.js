@@ -6,12 +6,14 @@ const Question = require('../models/Question');
 
 // Create a new question (POST /api/questions)
 router.post('/', async (req, res) => {
+  console.log('Request body:', req.body); // Log the request body for debugging
   try {
-    const { title, content, categoryId, userId } = req.body;
-    const newQuestion = new Question({ title, content, categoryId, userId });
-    const savedQuestion = await newQuestion.save();
-    res.status(201).json(savedQuestion);
+    const { categoryId, title, content, userId } = req.body;
+    const question = new Question({ categoryId, title, content, userId });
+    await question.save();
+    res.status(201).json(question);
   } catch (err) {
+    console.error('Error:', err); // Log the error for more details
     res.status(500).json({ error: err.message });
   }
 });
