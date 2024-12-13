@@ -20,12 +20,12 @@ const app = express();
 // Middleware
 const cors = require('cors');
 
-// Allow requests from your frontend origin
+// Allow requests from multiple origins (local and deployed frontend URLs)
 app.use(cors({
   origin: [
-    'http://localhost:3000',                                  // For local development
-    'https://kevinfrayed-knot.github.io/Project4-Frontend-React-App'  // Correct deployed frontend URL on GitHub Pages
-  ],
+    'http://localhost:3000',                               // Frontend local development
+    'https://kevinfrayed-knot.github.io',                 // Deployed frontend on GitHub Pages
+          ],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
