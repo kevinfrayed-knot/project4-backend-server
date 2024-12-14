@@ -16,6 +16,17 @@ router.post('/', async (req, res) => {
   }
 });
 
+// Get all answers
+router.get('/', async (req, res) => {
+  try {
+    const answers = await Answer.find().populate('questionId').populate('userId');
+    res.json(answers);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+
 // Get all answers for a question
 router.get('/:questionId', async (req, res) => {
   try {
