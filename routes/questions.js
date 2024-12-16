@@ -2,26 +2,42 @@
 
 const express = require('express');
 const router = express.Router();
+const jwt = require('jsonwebtoken');
 const Question = require('../models/Question');
 
 // Create a new question (POST /api/questions)
+// Create a new question (POST /api/questions)
 router.post('/', async (req, res) => {
   try {
-    const { categoryId, userId, content } = req.body;
+    // Extract the token from the Authorization header
+    const token = req.headers.authorization?.split(' ')[1];
+    if (!token) {
+      return res.status(401).json({ message: 'No token provided' });
+    }
 
-    // Debugging line to log the incoming request body
+    // Verify and decode the token to get the userId
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const userId = decoded.id;
+
+    // Debugging line to log the incoming request body and userId
     console.log('Request Body:', req.body);
+    console.log('Decoded User ID:', userId);
 
+    // Extract categoryId and content from the request body
+    const { categoryId, content } = req.body;
+
+    // Create a new Question with the userId
     const question = new Question({
       categoryId,
       userId,
       content,
     });
 
+    // Save the new question
     const savedQuestion = await question.save();
     res.status(201).json(savedQuestion);
   } catch (error) {
-    console.error('Error:', error);
+    console.error('Error creating question:', error);
     res.status(500).json({ error: error.message });
   }
 });
