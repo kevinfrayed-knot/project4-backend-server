@@ -65,5 +65,18 @@ router.get('/category/:categoryId', async (req, res) => {
   }
 });
 
+//get question details for a secific question 
+router.get('/:id', async (req, res) => {
+  try {
+    const question = await Question.findById(req.params.id)
+      .populate('categoryId')
+      .populate('userId');
+    if (!question) return res.status(404).json({ error: 'Question not found' });
+    res.json(question);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 module.exports = router;
 
